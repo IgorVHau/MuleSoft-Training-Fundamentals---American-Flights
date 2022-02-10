@@ -10,6 +10,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<flow name="getFlights" doc:id="401e2fe0-18ea-40eb-8814-ce3ad3b2e459" >
 		<http:listener doc:name="GET /flights" doc:id="de3d277f-7fb8-440d-98c3-a0be0a007913" config-ref="HTTP_Listener_config" path="/flights" allowedMethods="GET" >
+			<http:error-response>
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
 		</http:listener>
 		<set-variable value="#[message.attributes.queryParams.airline]" doc:name="airline" doc:id="0f0519a0-29c9-4975-bd3f-95995e29bddb" variableName="airline"/>
 		<flow-ref doc:name="setCode" doc:id="0ab1c6ad-e2d3-49be-8b71-3ac18336fcae" name="setCode"/>

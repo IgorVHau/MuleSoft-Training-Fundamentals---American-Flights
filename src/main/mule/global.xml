@@ -22,10 +22,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</wsc:config>
 	<configuration doc:name="Configuration" doc:id="92559294-d8c1-48cd-b33b-5a6360fc68b0" defaultErrorHandler-ref="globalError_Handler" />
 	<error-handler name="globalError_Handler" doc:id="5c9392ea-fe60-44e9-8e0f-1c03ca34a3a8" >
-		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="dbc34c94-2630-471a-9d3a-84c388f5f5ed" type="ANY">
-			<ee:transform doc:name="error.description" doc:id="d16d0002-00ae-4074-8882-a52810d6490b" >
-				<ee:message >
-					<ee:set-payload ><![CDATA[%dw 2.0
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f5170522-3637-45f3-805d-7e6f75baa8ed" type="ANY">
+			<ee:transform doc:name="error.description" doc:id="d16d0002-00ae-4074-8882-a52810d6490b">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -33,6 +33,6 @@ output application/json
 }]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-		</on-error-continue>
+		</on-error-propagate>
 	</error-handler>
 </mule>
