@@ -1,0 +1,10 @@
+http:
+  port: "8081"
+  
+american:
+  host: "training4-american-api-haubrich.us-e2.cloudhub.io"
+  port: "80"
+  basepath: "/"
+  protocol: "HTTP"
+  client_id: "550113274c52470798e79a2006e0ab74"
+  client_secret: "96570E1ab02c405291f93D18d8A60ef6"
