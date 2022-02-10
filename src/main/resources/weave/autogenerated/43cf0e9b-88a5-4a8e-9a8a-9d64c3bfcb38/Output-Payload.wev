@@ -1,0 +1,17 @@
+%dw 2.0
+
+type auto_43cf0e9b_88a5_4a8e_9a8a_9d64c3bfcb38_Output_Payload = Array<com_mulesoft_training_Flight>
+type com_mulesoft_training_Flight = {|
+  airlineName?: String, 
+  availableSeats?: Number, 
+  departureDate?: String, 
+  destination?: String, 
+  flightCode?: String, 
+  origination?: String, 
+  planeType?: String, 
+  price?: Number
+|} {"class": "com.mulesoft.training.Flight",
+"typeId": "com.mulesoft.training.Flight"}
+
+
+
