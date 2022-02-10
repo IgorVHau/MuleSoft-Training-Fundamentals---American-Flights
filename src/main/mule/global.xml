@@ -21,7 +21,19 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</wsc:connection>
 	</wsc:config>
 	<configuration doc:name="Configuration" doc:id="92559294-d8c1-48cd-b33b-5a6360fc68b0" defaultErrorHandler-ref="globalError_Handler" />
-	<error-handler name="globalError_Handler" doc:id="5c9392ea-fe60-44e9-8e0f-1c03ca34a3a8" >
+	<error-handler name="globalError_Handler" doc:id="f0077346-1559-4597-98a2-4f6fcc030a66" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="edcfa4bb-0a9e-4f7d-b9d3-dd7e21d7e043" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
+			<ee:transform doc:name="Data unavailable" doc:id="5652dbb7-9125-4328-9820-72f250add818" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Data unavailable. Try later." ++ error.description as String
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f5170522-3637-45f3-805d-7e6f75baa8ed" type="ANY">
 			<ee:transform doc:name="error.description" doc:id="d16d0002-00ae-4074-8882-a52810d6490b">
 				<ee:message>
