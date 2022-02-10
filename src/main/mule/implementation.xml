@@ -83,13 +83,26 @@ ns ns0 http://soap.training.mulesoft.com/
 			</ee:message>
 		</ee:transform>
 		<wsc:consume doc:name="Get flights" doc:id="dfcf91eb-e69f-4feb-b1cb-57bbaff30d5d" config-ref="Delta_Web_Service_Consumer_Config" operation="findFlight"/>
-		<ee:transform doc:name="SOAP to JSON" doc:id="2f22e92f-3db9-421b-8a1a-77f078451ecf" >
+		<ee:transform doc:name="SOAP to [Flight]" doc:id="2f22e92f-3db9-421b-8a1a-77f078451ecf" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/java
+ns ns0 http://soap.training.mulesoft.com/
 ---
-payload]]></ee:set-payload>
+payload.body.ns0#findFlightResponse.*return map ( return , indexOfReturn ) -> {
+	airlineName: return.airlineName,
+	availableSeats: return.emptySeats,
+	departureDate: return.departureDate,
+	destination: return.destination,
+	flightCode: return.code,
+	origination: return.origin,
+	planeType: return.planeType,
+	price: return.price
+} as Object {
+	class : "com.mulesoft.training.Flight"
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="3d86087e-fe4f-4f8d-af6f-e8102f88028b" />
 	</flow>
 </mule>
