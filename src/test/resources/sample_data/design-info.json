@@ -1,7 +1,16 @@
 {
   "sampleData": {
+    "b64f3133-7272-4f1f-82eb-43825d069122": {
+      "payload": "sample_data/json_1.json"
+    },
+    "cd67ab78-1bc2-4028-b4c9-cb71eb0f8bf6": {
+      "payload": "sample_data/list_json_1.json"
+    },
     "8f3041d8-48ae-4c21-be5f-56f3f2325bf0": {
       "payload": "sample_data/json.json"
+    },
+    "fe30f8ea-f784-468e-9fcc-1648db0c1ecb": {
+      "payload": "sample_data/list_json.json"
     }
   }
 }
