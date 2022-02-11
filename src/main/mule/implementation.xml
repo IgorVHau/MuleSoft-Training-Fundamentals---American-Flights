@@ -229,4 +229,20 @@ data: {
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="c993ffa8-724e-47c7-8e26-6727d470eb0f" message="#[vars.DWoutput]"/>
 	</flow>
+	<flow name="postMultipleFlights" doc:id="6d56fbed-7eeb-4ae0-8738-f51b5c8363d0" >
+		<http:listener doc:name="POST /multipleflights" doc:id="0cba4e77-e3ab-4c51-8155-741dc4903b75" config-ref="HTTP_Listener_config" path="/multipleflights" allowedMethods="POST"/>
+		<ee:transform doc:name="Transform Message" doc:id="cd67ab78-1bc2-4028-b4c9-cb71eb0f8bf6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+flights: payload..*return map (object, index) -> {
+		dest: object.destination,
+		price: object.price
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="bb0e368d-e36b-4579-94b7-f7e98654bcc3" />
+	</flow>
 </mule>
