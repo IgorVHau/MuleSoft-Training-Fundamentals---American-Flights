@@ -124,15 +124,6 @@ output application/json
 		<flow-ref doc:name="getFlights" doc:id="bc0d9a43-0400-4ee0-9915-4ff76607808f" name="getFlights"/>
     </flow>
     <flow name="post:\flights:application\json:mua-flights-api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: "Flight added (but not really)"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="postFlight" doc:id="51b4d75d-da65-45d1-a471-334820ade425" name="postFlight"/>
     </flow>
 </mule>

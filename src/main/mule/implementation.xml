@@ -210,4 +210,16 @@ payload.body.ns0#findFlightResponse.*return map ( return , indexOfReturn ) -> {
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="3d86087e-fe4f-4f8d-af6f-e8102f88028b" />
 	</flow>
+	<flow name="postFlight" doc:id="ec464bb5-9a6e-4afe-af0c-b3a0b7d152a8" >
+		<ee:transform doc:name="Transform Message" doc:id="8f3041d8-48ae-4c21-be5f-56f3f2325bf0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c993ffa8-724e-47c7-8e26-6727d470eb0f" />
+	</flow>
 </mule>
