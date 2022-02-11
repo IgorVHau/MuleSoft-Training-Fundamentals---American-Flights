@@ -17,7 +17,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</http:listener>
 		<set-variable value="#[message.attributes.queryParams.airline]" doc:name="airline" doc:id="0f0519a0-29c9-4975-bd3f-95995e29bddb" variableName="airline"/>
 		<flow-ref doc:name="setCode" doc:id="0ab1c6ad-e2d3-49be-8b71-3ac18336fcae" name="setCode"/>
-		<validation:is-true doc:name="Is valid destination" doc:id="1f3b4066-27e7-4711-8005-9c3dc2684ee2" expression="#[['SFO', 'LAX', 'CLE', 'PDX', 'PDF'] contains vars.code]" message="#['Invalid destination' ++ ' ' ++ (vars.code default ' ')]"/>
+		<validation:is-true doc:name="Is valid destination" doc:id="1f3b4066-27e7-4711-8005-9c3dc2684ee2" expression="#[['SFO', 'LAX', 'CLE', 'PDX', 'PDF'] contains vars.code]" message="#['Invalid destination' ++ ' ' ++ (vars.code default ' ')]">
+			<error-mapping sourceType="VALIDATION:INVALID_BOOLEAN" targetType="APP:INVALID_DESTINATION" />
+		</validation:is-true>
 		<choice doc:name="Choice" doc:id="8c0f6db6-88cc-44b5-84e3-04096c585513" >
 			<when expression='#[vars.airline == "american"]'>
 				<flow-ref doc:name="getAmericanFlights" doc:id="b72be644-663b-4282-8e99-000c21ecec42" name="getAmericanFlights"/>
@@ -55,7 +57,7 @@ output application/json
 				</ee:transform>
 				<set-variable value="200" doc:name="httpStatus" doc:id="7ee28413-392f-4433-a7d4-b8bbde7e9a53" variableName="httpStatus"/>
 			</on-error-propagate>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4eaca41c-fa79-4c86-b7c5-3029dc93f80a" type="VALIDATION:INVALID_BOOLEAN">
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4eaca41c-fa79-4c86-b7c5-3029dc93f80a" type="APP:INVALID_DESTINATION">
 				<ee:transform doc:name="Transform Message" doc:id="f3abc01b-57e1-4fc7-8dc4-66a038739c22" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
