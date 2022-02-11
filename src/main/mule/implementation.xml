@@ -234,11 +234,33 @@ data: {
 		<ee:transform doc:name="Transform Message" doc:id="cd67ab78-1bc2-4028-b4c9-cb71eb0f8bf6" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/dw
+
+/* //var numSeats = 400
+//var numSeats = (x=400) -> x
+var numSeats = (planeType: String) ->
+	if (planeType contains('737'))
+		150
+	else
+		300
+		*/
+fun getNumSeats (planeType: String) = do {
+	var maxSeats =
+		if (planeType contains('737'))
+			150
+		else
+			300
+	---
+	maxSeats
+}
+
 ---
 flights: payload..*return map (object, index) -> {
 		dest: object.destination,
-		price: object.price
+		price: object.price,
+		//totalSeats: numSeats(object.planeType as String),
+		totalSeats: getNumSeats(object.planeType as String),
+		plane: object.planeType
 }
 ]]></ee:set-payload>
 			</ee:message>
