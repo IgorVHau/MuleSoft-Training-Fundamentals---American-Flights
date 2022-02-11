@@ -35,7 +35,7 @@ output application/json
 				</ee:transform>
 				<set-variable value="400" doc:name="httpStatus" doc:id="54a937b4-bbdb-45ae-b701-022ef97a4167" variableName="httpStatus"/>
 			</on-error-continue>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="edcfa4bb-0a9e-4f7d-b9d3-dd7e21d7e043" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="edcfa4bb-0a9e-4f7d-b9d3-dd7e21d7e043" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
 			<ee:transform doc:name="Data unavailable" doc:id="5652dbb7-9125-4328-9820-72f250add818" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
@@ -46,8 +46,9 @@ output application/json
 }]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-		</on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f5170522-3637-45f3-805d-7e6f75baa8ed" type="ANY">
+			<set-variable value="500" doc:name="httpStatus" doc:id="1472ab8c-2157-4811-9ee1-60909918c15a" variableName="httpStatus"/>
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f5170522-3637-45f3-805d-7e6f75baa8ed" type="ANY">
 			<ee:transform doc:name="error.description" doc:id="d16d0002-00ae-4074-8882-a52810d6490b">
 				<ee:message>
 					<ee:set-payload><![CDATA[%dw 2.0
@@ -58,6 +59,7 @@ output application/json
 }]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-		</on-error-propagate>
+			<set-variable value="500" doc:name="httpStatus" doc:id="08dfefff-d13e-4359-a707-fbeecb437082" variableName="httpStatus"/>
+		</on-error-continue>
 	</error-handler>
 </mule>
