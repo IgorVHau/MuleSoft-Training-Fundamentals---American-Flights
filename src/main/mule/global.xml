@@ -22,6 +22,19 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</wsc:config>
 	<configuration doc:name="Configuration" doc:id="92559294-d8c1-48cd-b33b-5a6360fc68b0" defaultErrorHandler-ref="globalError_Handler" />
 	<error-handler name="globalError_Handler" doc:id="f0077346-1559-4597-98a2-4f6fcc030a66" >
+	<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5c370f7a-1b55-44ae-8253-9502673c9ccb" type="APP:INVALID_DESTINATION">
+				<ee:transform doc:name="error.description" doc:id="2180dc8b-4945-4604-90fa-b9f2a64da87b" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": error.description
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="400" doc:name="httpStatus" doc:id="54a937b4-bbdb-45ae-b701-022ef97a4167" variableName="httpStatus"/>
+			</on-error-continue>
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="edcfa4bb-0a9e-4f7d-b9d3-dd7e21d7e043" type="WSC:CONNECTIVITY, WSC:INVALID_WSDL">
 			<ee:transform doc:name="Data unavailable" doc:id="5652dbb7-9125-4328-9820-72f250add818" >
 				<ee:message >

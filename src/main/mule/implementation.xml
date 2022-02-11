@@ -43,34 +43,7 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="799e4fab-b522-48d1-a4ca-50adb80ba6db" />
-		<error-handler >
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f33400e8-d332-4ba4-b1d8-27088f77b42d" type="AMERICAN-FLIGHTS-API:BAD_REQUEST">
-				<ee:transform doc:name="No flights" doc:id="21730052-2a9f-40ba-9ca5-59dc5090de40" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	"message": "No flights to " ++ vars.code as String
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable value="200" doc:name="httpStatus" doc:id="7ee28413-392f-4433-a7d4-b8bbde7e9a53" variableName="httpStatus"/>
-			</on-error-propagate>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4eaca41c-fa79-4c86-b7c5-3029dc93f80a" type="APP:INVALID_DESTINATION">
-				<ee:transform doc:name="Transform Message" doc:id="f3abc01b-57e1-4fc7-8dc4-66a038739c22" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	"message": error.description
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<set-variable value="400" doc:name="httpStatus" doc:id="f4c45cb0-22de-4814-8020-a88ab876a68c" variableName="httpStatus"/>
-			</on-error-continue>
-		</error-handler>
+
 	</flow>
 	<flow name="getAllAirlineFlights" doc:id="67405433-3fc0-463a-b773-bd04929f5d77" >
 		<scatter-gather doc:name="Scatter-Gather" doc:id="06b0fa2a-d5d5-480d-ac89-63e6b143c8ca" >
@@ -158,6 +131,21 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="f11b1d82-5331-458e-940b-1c6a7dc66437" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f33400e8-d332-4ba4-b1d8-27088f77b42d" type="AMERICAN-FLIGHTS-API:BAD_REQUEST">
+				<ee:transform doc:name="No flights" doc:id="21730052-2a9f-40ba-9ca5-59dc5090de40">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "No flights to " ++ vars.code as String
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="200" doc:name="httpStatus" doc:id="7ee28413-392f-4433-a7d4-b8bbde7e9a53" variableName="httpStatus" />
+			</on-error-propagate>
+		</error-handler>
 	</flow>
 	<sub-flow name="setCode" doc:id="faeff004-d407-4952-9ac5-359a7e1f4ae0">
 		<set-variable value="#[message.attributes.queryParams.code]" doc:name="code" doc:id="1f375a94-b654-4c0f-8d3a-9ae0f442f4fc" variableName="code" />
