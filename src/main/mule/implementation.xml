@@ -262,13 +262,34 @@ flights: (payload..*return map (object, index) -> {
 		price: object.price as Number as Currency,
 		//totalSeats: numSeats(object.planeType as String),
 		//totalSeats: getNumSeats(object.planeType as String),
+		totalSeats: lookup("getTotalSeats",{planeType: object.planeType}),
 		planeType: dasherize(replace(object.planeType,/(Boing)/) with "Boeing"),
 		departureDate: object.departureDate as Date {format: "yyyy/MM/dd"} as String {format: "MMM dd, yyyy"},
 		availableSeats: object.emptySeats as Number
-} as Flight) distinctBy $ filter ($.availableSeats != 0) orderBy $.departureDate orderBy $.price
+} as Object) distinctBy $ filter ($.availableSeats != 0) orderBy $.departureDate orderBy $.price
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="bb0e368d-e36b-4579-94b7-f7e98654bcc3" />
+	</flow>
+	<flow name="getTotalSeats" doc:id="70e18956-ce46-40b1-8e8e-cc3fca804d5c" >
+		<ee:transform doc:name="Transform Message" doc:id="8128afe7-7f83-4f80-b305-4d0a6545308f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+
+fun getNumSeats (planeType: String) = do {
+	var maxSeats =
+		if (planeType contains('737'))
+			150
+		else
+			300
+	---
+	maxSeats
+}
+---
+getNumSeats(payload.planeType)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
